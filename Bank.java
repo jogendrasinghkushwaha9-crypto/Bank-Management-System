@@ -1,14 +1,18 @@
 import java.util.Scanner;
 import java.sql.*;
 class BankOperation {
+    Scanner sc;
     connection con=new connection();
-    Scanner sc=new Scanner(System.in);
+    BankOperation(Scanner sc){
+        this.sc=sc;
+    }
+
     void OpenAccount(){
-        sc.nextLine();
         System.out.println("Enter Account holder name : ");
         con.accountHolderName=sc.nextLine();
         System.out.println("Enter Deposit Amount : ");
         con.tmpamount=sc.nextDouble();
+        sc.nextLine();
         try{
             con.n=con.st.executeUpdate("insert into account(name,balance) values('"+con.accountHolderName +"',"+con.tmpamount+")");
             if(con.n>0)
@@ -25,7 +29,6 @@ class BankOperation {
     }
 
     void ShowDetail(){
-        sc.nextLine();
         System.out.println("Enter Account Holder Name : ");
         con.accountHolderName=sc.nextLine();
         try{
@@ -44,11 +47,11 @@ class BankOperation {
     }
 
     void Deposit(){
-        sc.nextLine();
         System.out.println("Enter Account Holder Name : ");
         con.accountHolderName=sc.nextLine();
         System.out.println("Enter Amount of Deposit : ");
         con.tmpamount=sc.nextDouble();
+        sc.nextLine();
         try{
             con.n=con.st.executeUpdate("update account set balance =balance+"+con.tmpamount+" where name='"+con.accountHolderName+"'");
             if(con.n>0)
@@ -65,11 +68,11 @@ class BankOperation {
     }
 
     void WithDraw(){
-        sc.nextLine();
         System.out.println("Enter Account Holder Name : ");
         con.accountHolderName=sc.nextLine();
         System.out.println("Enter withdraw Amount : ");
         con.tmpamount=sc.nextDouble();
+        sc.nextLine();
         try{
             con.rs=con.st.executeQuery("select * from account where name='"+con.accountHolderName+"'");
             if(con.rs.next()){
@@ -92,7 +95,6 @@ class BankOperation {
     }
 
     void DeleteAccount(){
-        sc.nextLine();
         System.out.println("Enter Account Holder Name : ");
         con.accountHolderName=sc.nextLine();
         try{
@@ -132,7 +134,7 @@ public class Bank{
     public static void main(String[] args){
         Scanner sc=new Scanner(System.in);
         connection con=new connection();
-        BankOperation bo=new BankOperation();
+        BankOperation bo=new BankOperation(sc);
         while(true)
         {
             System.out.println("Bank Management System\n");
@@ -144,6 +146,7 @@ public class Bank{
             System.out.println("6 Exit ....\n");
             System.out.println("what operation do you perform : ");
             con.choice=sc.nextInt();
+            sc.nextLine();
             switch (con.choice) {
                 case 1:
                     bo.OpenAccount();
